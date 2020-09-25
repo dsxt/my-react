@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>redux-princople</title>
+</head>
+<body>
+    <button onclick="store.dispatch({type:'JIAN',n:1})">-</button>
+    <span id="countDisplay">0</span>
+    <button onclick="store.dispatch({type:'JIA',n:1})">+</button>
+    <script src="https://cdn.bootcdn.net/ajax/libs/redux/4.0.0-rc.1/redux.min.js"></script>
+    <script>
+        // 纯函数:一个函数的返回结果只依赖于它的参数，并且在执行过程里面没有副作用
+        // 深度复制对象Object.assign、{...};数组.slice()、{...}
+        const countDisplay = document.querySelector('#countDisplay');
+        const countState = {
+            count:5
+        }
+
+        const changeState = (state,action)=>{
+            if(!state){
+                return countState
+            }
+            switch(action.type){
+                case 'JIAN':
+                    return {
+                        ...state,
+                        count:state.count - action.n
+                    }
+                case 'JIA':
+                    return {
+                        ...state,
+                        count:state.count + action.n
+                    }
+                default:
+                    return state;
+            }
+        }
+        // const createStore = (changeState)=>{
+        //     let state = null
+        //     const getState = ()=>state;
+        //     const listeners = [];
+        //     const subscribe = (item)=>listeners.push(item);
+        //     const dispatch = (action)=>{
+        //         state = changeState(state,action)
+        //         listeners.forEach(item=>item())
+        //     }
+        //     dispatch({})
+        //     return {
+        //         getState,
+        //         subscribe,
+        //         dispatch
+        //     }
+        // }
+        console.log(Redux,1111)
+        const store = Redux.createStore(changeState)
+        const renderCount = ()=>{
+            countDisplay.innerHTML = store.getState().count
+        }
+        renderCount()
+        store.subscribe(renderCount)
+    </script>
+</body>
+</html>
