@@ -1,22 +1,15 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import { increment,decrement } from '../../actions/cart'
 
-export default class CartList extends Component {
+class CartList extends Component {
     constructor(){
         super()
         this.state = {
-            cartList:[]
         }
     }
-    getState = ()=>{
-        this.setState({
-            cartList:this.props.store.getState().cart
-        })
-    }
     componentDidMount(){
-        this.getState()
-        this.props.store.subscribe(this.getState)
     }
     render() {
         return (
@@ -32,7 +25,7 @@ export default class CartList extends Component {
                 </thead>
                 <tbody>
                     {
-                        this.state.cartList.map(item=>{
+                        this.props.cartList.map(item=>{
                             return (
                                 <tr key={item.id}>
                                     <td>{item.id}</td>
@@ -41,13 +34,17 @@ export default class CartList extends Component {
                                     <td>
                                         <button onClick={
                                             ()=>{
-                                                this.props.store.dispatch(decrement(item.id))
+                                                // this.props.dispatch(decrement(item.id))//2
+                                                // this.props.add(item.id) //1跟组件相关更纯净，上面的方法也可以,使用mapDispatchToProps
+                                                this.props.decrement(item.id)
                                             }
                                         }>-</button>
                                         <span>{item.amount}</span>
                                         <button onClick={
                                             ()=>{
-                                                this.props.store.dispatch(increment(item.id))
+                                                // this.props.dispatch(increment(item.id))//2
+                                                // this.props.reduce(item.id) //1使用mapDispatchToProps
+                                                this.props.increment(item.id)
                                             }
                                         }>+</button>
                                     </td>
@@ -61,3 +58,20 @@ export default class CartList extends Component {
         )
     }
 }
+const mapStateToProps = (state)=>{
+    // return了什么，可以用this.props来获取
+    return {
+        cartList:state.cart
+    }
+}
+// const mapDispatchToProps = (dispatch)=>{//1
+//     return {
+//         add:id=>dispatch(decrement(id)),
+//         reduce:id=>dispatch(increment(id))
+//     }
+// }
+// export default connect(mapStateToProps,mapDispatchToProps)(CartList)//1,2
+
+// connect有四个参数1.mapStateToProps，把store的state传递到props上，2mapDispatchToProps,把action生成的方法传递到props上
+// 以上是同步；异步、中间件待讲
+export default connect(mapStateToProps,{ increment,decrement })(CartList)//3

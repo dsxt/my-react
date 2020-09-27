@@ -4,10 +4,9 @@ import { CartList } from './components'
 
 class App extends Component {
     render() {
-        console.log(this.props)
         return (
             <div>
-                <CartList store={this.props.store} />
+                <CartList />
             </div>
         )
     }
