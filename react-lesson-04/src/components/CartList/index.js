@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { increment,decrement } from '../../actions/cart'
+import { increment,decrement,incrementAsync } from '../../actions/cart'
 
 class CartList extends Component {
     constructor(){
@@ -42,6 +42,11 @@ class CartList extends Component {
                                         <span>{item.amount}</span>
                                         <button onClick={
                                             ()=>{
+                                                this.props.incrementAsync(item.id)
+                                            }
+                                        }>等一会再加</button>
+                                        <button onClick={
+                                            ()=>{
                                                 // this.props.dispatch(increment(item.id))//2
                                                 // this.props.reduce(item.id) //1使用mapDispatchToProps
                                                 this.props.increment(item.id)
@@ -74,4 +79,7 @@ const mapStateToProps = (state)=>{
 
 // connect有四个参数1.mapStateToProps，把store的state传递到props上，2mapDispatchToProps,把action生成的方法传递到props上
 // 以上是同步；异步、中间件待讲
-export default connect(mapStateToProps,{ increment,decrement })(CartList)//3
+export default connect(mapStateToProps,{ increment,decrement,incrementAsync })(CartList)//3
+
+// 流程： 同步action=>dispatch(action)=>reducer=>store=>view
+//       异步action=>中间件middleware处理生成新的newAction=>手动dispatch(newAction)=>reducer=>store=>view

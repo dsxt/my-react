@@ -17,6 +17,16 @@ export const increment = (id)=>{
     }
 }
 
+// 异步action
+// 使用redux-thunk，就可以在action里return一个方法，方法的参数是dispatch
+export const incrementAsync = (id)=>{
+    return dispatch=>{
+        setTimeout(()=>{
+            dispatch(increment(id))
+        },2000)
+    }
+    }
+
 export const decrement = (id)=>{
     return {
         type:actionType.CART_AMOUNT_DECREMENT,

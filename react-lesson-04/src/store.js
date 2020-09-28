@@ -1,7 +1,13 @@
-import { createStore } from 'redux'
+import { createStore,applyMiddleware } from 'redux'
+
+import thunk from 'redux-thunk'
+
 import rootReducers from './reducers'
 
-export default createStore(rootReducers)
+export default createStore(
+    rootReducers,
+    applyMiddleware(thunk)
+    )
 
 // Redux 可以用这三个基本原则
 // 1.单一数据源
