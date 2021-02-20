@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import { withRouter } from 'react-router-dom'
 
+@withRouter
 class BackHome extends Component {
     render() {
         return (
@@ -13,4 +14,5 @@ class BackHome extends Component {
         )
     }
 }
-export default withRouter(BackHome)
+export default BackHome
+// @withRouter等价于withRouter(BackHome)

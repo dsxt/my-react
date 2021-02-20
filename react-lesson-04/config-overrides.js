@@ -8,12 +8,18 @@
 
 // 1.如果想要配置方便，引入customize-cra(需要先安装 react-app-rewired)：yarn add customize-cra -D
 // 2.修改config-overrides.js里的内容；使用装饰器必须先安装yarn add @babel/plugin-proposal-decorators -D
-const { override,addDecoratorsLegacy,fixBabelImports }  = require('customize-cra')
+const { override,addDecoratorsLegacy,fixBabelImports,addLessLoader }  = require('customize-cra')
+const theme = require('./theme')
 module.exports = override(
     fixBabelImports('import',{
         libraryName:'antd',
         libraryDirectory:'es',
-        style:'css'
+        style:true
+    }),
+    // 对less-loader有版本要求：yarn add less-loader@5.0.0 --dev
+    addLessLoader({
+        javascriptEnabled:true,
+        modifyVars:theme
     }),
     addDecoratorsLegacy()
 )

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Button } from 'antd'
+import { Button,Pagination  } from 'antd'
 
 import { CartList } from './components'
 import { BlogList } from './components'
@@ -15,10 +15,26 @@ import {
 } from 'react-router-dom'
 
 class App extends Component {
+    constructor(){
+        super()
+        this.state = {
+            current:1,
+            pageSize:10
+        }
+    }
+    onShowSizeChange = (current, pageSize)=>{
+        console.log(current, pageSize);
+    }
     render() {
         return (
             <div>
                 <Button type="primary">测试antd</Button>
+                <Pagination
+                    showSizeChanger
+                    onShowSizeChange={this.onShowSizeChange}
+                    defaultCurrent={1}
+                    total={500}
+                />
                 <ul>
                     <li><Link to="/cart">购物车</Link></li>
                     <li><Link to="/blog">内容列表</Link></li>
